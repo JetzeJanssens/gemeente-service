@@ -26,7 +26,7 @@ public class GemeenteController {
         System.out.println(gemeenteRepository.findGemeenteByPostcode("3945").getNaam());
     }
 
-    @GetMapping("/gemeentes/name/{name}")
+    @GetMapping("/gemeentes/naam/{naam}")
     public List<Gemeente> getGemeenteByName(@PathVariable String naam){
         return gemeenteRepository.findGemeenteByNaamContaining(naam);
     }
