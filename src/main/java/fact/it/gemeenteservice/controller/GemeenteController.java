@@ -22,7 +22,6 @@ public class GemeenteController {
             gemeenteRepository.save(new Gemeente("Ham", "3945"));
             gemeenteRepository.save(new Gemeente("Tessenderlo","3980" ));
         }
-        System.out.println("Gemeentes test:" + gemeenteRepository.findGemeenteByPostcode("3980").getNaam());
     }
 
     @GetMapping("/gemeentes/naam/{naam}")
