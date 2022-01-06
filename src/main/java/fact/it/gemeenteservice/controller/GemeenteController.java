@@ -30,7 +30,12 @@ public class GemeenteController {
         return gemeenteRepository.findGemeenteByNaam(naam);
     }
 
-    @GetMapping("/gemeentes/{postcode}")
+    @GetMapping("/gemeentes")
+    public List<Gemeente> all(){
+        return gemeenteRepository.findAll();
+    }
+
+    @GetMapping("/gemeentes/postcode/{postcode}")
     public Gemeente getGemeenteByPostcode(@PathVariable String postcode){
         return gemeenteRepository.findGemeenteByPostcode(postcode);
     }
