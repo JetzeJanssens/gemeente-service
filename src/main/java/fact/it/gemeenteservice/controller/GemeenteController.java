@@ -23,7 +23,6 @@ public class GemeenteController {
             gemeenteRepository.save(new Gemeente("Tessenderlo","3980" ));
         }
     }
-//test
 
     @GetMapping("/gemeentes/naam/{naam}")
     public List<Gemeente> getGemeenteByName(@PathVariable String naam){
