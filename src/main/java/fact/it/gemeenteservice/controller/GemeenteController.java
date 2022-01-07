@@ -3,9 +3,7 @@ package fact.it.gemeenteservice.controller;
 import fact.it.gemeenteservice.model.Gemeente;
 import fact.it.gemeenteservice.repository.GemeenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -37,5 +35,11 @@ public class GemeenteController {
     @GetMapping("/gemeentes/postcode/{postcode}")
     public Gemeente getGemeenteByPostcode(@PathVariable String postcode){
         return gemeenteRepository.findGemeenteByPostcode(postcode);
+    }
+
+    @PostMapping("/gemeentes")
+    public Gemeente addGemeente(@RequestBody Gemeente gemeente) {
+        gemeenteRepository.save(gemeente);
+        return gemeente;
     }
 }
