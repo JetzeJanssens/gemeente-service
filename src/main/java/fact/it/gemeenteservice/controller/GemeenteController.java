@@ -3,6 +3,7 @@ package fact.it.gemeenteservice.controller;
 import fact.it.gemeenteservice.model.Gemeente;
 import fact.it.gemeenteservice.repository.GemeenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -37,9 +38,30 @@ public class GemeenteController {
         return gemeenteRepository.findGemeenteByPostcode(postcode);
     }
 
-    @PostMapping("/gemeentes")
+    @PostMapping("/gemeente/add")
     public Gemeente addGemeente(@RequestBody Gemeente gemeente) {
         gemeenteRepository.save(gemeente);
         return gemeente;
+    }
+
+    @PutMapping("/gemeente/update")
+    public Gemeente updateGemeente(@RequestBody Gemeente gemeente){
+        Gemeente updateGemeente = gemeenteRepository.findGemeenteByPostcode(gemeente.getPostcode());
+
+        updateGemeente.setNaam(gemeente.getNaam());
+
+        gemeenteRepository.save(updateGemeente);
+
+        return updateGemeente;
+    }
+
+    @DeleteMapping("/gemeente/delete/{postcode}")
+    public ResponseEntity deleteGemeente(@PathVariable String postcode){
+        Gemeente gemeente =gemeenteRepository.findGemeenteByPostcode(postcode);
+        if(gemeente!=null){
+            gemeenteRepository.delete(gemeente);
+        }
+
+        return ResponseEntity.ok().build();
     }
 }
