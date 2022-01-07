@@ -1,5 +1,5 @@
 apiVersion: v1                    # API version
-kind: Service                     # Type of kubernetes resource
+kind: Service                     # Type of kubernetes resource 
 metadata:
   name: gemeente-service-mongo      # Name of the service
   labels:                         # Labels that will be applied to the service
@@ -16,7 +16,7 @@ apiVersion: apps/v1
 kind: Deployment                    # Type of the kubernetes resource
 metadata:
   name: gemeente-service-mongo-deployment           # Name of the deployment
-  labels:                           # Labels applied to this deployment
+  labels:                           # Labels applied to this deployment 
     app: gemeente-service
 spec:
   selector:
@@ -32,11 +32,11 @@ spec:
         tier: mongo
     spec:                           # The spec for the containers that will be run inside the Pods in this deployment
       containers:
-        - image: mongo                # The container image
+      - image: mongo                # The container image
+        name: mongo
+        ports:
+        - containerPort: 27017        # The port that the container exposes       
           name: mongo
-          ports:
-            - containerPort: 27017        # The port that the container exposes
-              name: mongo
 ---
 apiVersion: apps/v1           # API version
 kind: Deployment              # Type of kubernetes resource
@@ -55,33 +55,33 @@ spec:
         app: gemeente-service-server
     spec:                     # Spec for the containers that will be run in the Pods
       containers:
-        - name: gemeente-service-server
-          image: juliankoppens/gemeente-service
-          imagePullPolicy: Always
-          ports:
-            - name: http
-              containerPort: 8053 # The port that the container exposes
-          resources:
-            limits:
-              cpu: 0.2
-              memory: "200Mi"
-          env:                    # Environment variables supplied to the Pod
-            - name: MONGODB_HOST
-              value: "gemeente-service-mongo"
-            - name: MONGODB_PORT
-              value: "27017"
+      - name: gemeente-service-server
+        image: juliankoppens/gemeente-service
+        imagePullPolicy: Always
+        ports:
+          - name: http
+            containerPort: 8053 # The port that the container exposes
+        resources:
+          limits:
+            cpu: 0.2
+            memory: "200Mi"
+        env:                    # Environment variables supplied to the Pod
+        - name: MONGODB_HOST
+          value: "gemeente-service-mongo"
+        - name: MONGODB_PORT
+          value: "27017"
 ---
 apiVersion: v1                   # API version
 kind: Service                    # Type of the kubernetes resource
-metadata:
+metadata:                     
   name: gemeente-service-server    # Name of the service
   labels:                        # Labels that will be applied to this service
     app: gemeente-service-server
-spec:
+spec:                         
   type: NodePort                 # The service will be exposed by opening a Port on each node and proxying it. Allowing connections from outside the cluster
   selector:
     app: gemeente-service-server   # The service exposes Pods with label `app=review-service-server`
   ports:                         # Forward incoming connections on port 8052 to the target port 8052
-    - name: http
-      port: 8053
-      targetPort: 8053
+  - name: http
+    port: 8053
+    targetPort: 8053
